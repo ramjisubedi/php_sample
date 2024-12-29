@@ -52,14 +52,13 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             $hasErrors = true;
         }
     }
-//password is at least 8 characters long and includes at least one uppercase letter, one lowercase letter, and one number.
-
+    //password is at least 8 characters long and includes at least one uppercase letter, one lowercase letter, and one number.
     if (empty($_POST["password"])) {
         $passwordErr = "Password is required";
         $hasErrors = true;
     } else {
         $password = validate_input($_POST["password"]);
-        // Check if name only contains letters and whitespace
+        // Check if password only contains letters and numbers
         if (!preg_match('/^(?=.*[A-Z])(?=.*[a-z])(?=.*\d).{8,}$/', $password)) {
             $passwordErr = "Password is at least 8 characters long, one uppercase letter, one lowercase letter, and one number";
             $hasErrors = true;
@@ -76,28 +75,39 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         }
     }
 
+
+    if (!$hasErrors) {
+        require_once("../config/db.php");
+        // Escape special characters in user input to prevent SQL injection
+        $name = $conn->real_escape_string($name);
+        $email = $conn->real_escape_string($email);
+        $password = password_hash($password, PASSWORD_DEFAULT);
+        // INSER QUERY
+        // ROLE : 0 = admin, 1 = user, 2 = customer
+        try {
+            $sql = "INSERT INTO users (name, email, password,role)VALUES ('$name', '$email', '$password',0)";    
+            // Execute the query
+            if ($conn->query($sql) === TRUE) {
+                header("Location:login.php");
+                exit();
+            } else {
+                // If an error occurs, check if it's a duplicate entry error (code 1062)
+                if ($conn->errno == 1062) {
+                    $emailErr = "Email already exist";
+                } else {
+                    throw new Exception("Error inserting data: " . $conn->error);
+                }
+            }
+        } catch (Exception $e) {
+            echo "Error: " . $e->getMessage();
+        }
+    }
+}
+    // FOR input border css
     $nameClass = $nameErr ? 'error-border' : '';
     $emailClass = $emailErr ? 'error-border' : '';
     $passwordClass = $passwordErr ? 'error-border' : '';
     $rpasswordClass = $rpasswordErr ? 'error-border' : '';
-    if (!$hasErrors) {
-        //require_once("../config/db.php");
-        $_SESSION['user_id'] = $email;
-        // INSER QUERY
-        //     $sql = "INSERT INTO MyGuests (firstname, lastname, email)
-        // VALUES ('John', 'Doe', 'john@example.com')";
-
-        // if ($conn->query($sql) === TRUE) {
-        // echo "New record created successfully";
-        // redirect("Location:login.php");
-        // exit();
-        // } else {
-        // echo "Error: " . $sql . "<br>" . $conn->error;
-        // }
-        header("Localtion:index.php");
-    }
-}
-
 ?>
 
 
