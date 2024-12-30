@@ -1,5 +1,7 @@
-<?php include_once '../config/index.php'; 
-include('auth.php'); 
+<?php include_once '../../config/index.php'; 
+include('auth.php');
+include_once '../../helper/index.php'; 
+checkPermission([1, 3]);
 ?>
 <!DOCTYPE html>
 <html lang="en">

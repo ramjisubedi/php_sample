@@ -1,4 +1,6 @@
-<?php include('common/header.php');
+<?php
+
+include('common/header.php');
 // Initialize error variables
 $nameErr = $pricelErr = $descriptionErr = $imageErr = $fileErr = "" ;
 $name = $price = $description = $price = "";
@@ -6,7 +8,7 @@ $nameClass = $priceClass = $descriptionClass = $imageClass = "";
 //SET FLAG
 $hasErrors = false;
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
-    include_once '../helper/index.php';
+    
     if (empty($_POST["name"])) {
         $nameErr = "Name is required";
         $hasErrors = true;
