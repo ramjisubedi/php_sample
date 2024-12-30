@@ -31,12 +31,12 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } 
 
       // File Upload Validation
-    if (isset($_FILES['profile_pic'])) {
-        $fileTmpName = $_FILES['profile_pic']['tmp_name'];
-        $fileName = $_FILES['profile_pic']['name'];
-        $fileSize = $_FILES['profile_pic']['size'];
-        $fileError = $_FILES['profile_pic']['error'];
-        $fileType = $_FILES['profile_pic']['type'];
+    if (isset($_FILES['image'])) {
+        $fileTmpName = $_FILES['image']['tmp_name'];
+        $fileName = $_FILES['image']['name'];
+        $fileSize = $_FILES['image']['size'];
+        $fileError = $_FILES['image']['error'];
+        $fileType = $_FILES['image']['type'];
 
         // Check if file is uploaded without error
         if ($fileError === UPLOAD_ERR_OK) {
@@ -124,7 +124,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                             <h6 class="m-0 font-weight-bold text-primary"></h6>
                         </div>
                         <div class="card-body">
-                        <form class="user" method="post">
+                        <form class="user" method="post" enctype="multipart/form-data">
                                 <div class="form-group row">
                                     <div class="col-sm-12 mb-3 mb-sm-0">
                                         <input type="text" class="form-control form-control-user " id="name" placeholder="Name" name="name">
@@ -145,7 +145,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                                 </div>
                                 <div class="form-group row">
                                     <div class="col-sm-6 mb-3 mb-sm-0">
-                                      <input type="file" class="form-control form-control-user" name="image">
+                                      <input type="file" class="form-control " name="image">
                                         <span class="text-danger text-sm"></span>
                                     </div>
                                    

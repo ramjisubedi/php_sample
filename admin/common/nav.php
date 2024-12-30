@@ -37,7 +37,9 @@
                 <div id="collapseTwo" class="collapse" aria-labelledby="headingTwo" data-parent="#accordionSidebar">
                     <div class="bg-white py-2 collapse-inner rounded">
                         <a class="collapse-item" href="product_list.php">All Products</a>
+                        <?php if($_SESSION['role']!='2'){?>
                         <a class="collapse-item" href="product_add.php">Add Product</a>
+                        <?php } ?>
                     </div>
                 </div>
             </li>
